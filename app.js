@@ -1,25 +1,34 @@
+var express = require('express')
+var app = express()
+var server = require('http').Server(app)
 var mysql = require('mysql')
 var PHPUnserialize = require('php-unserialize')
 var us = require('underscore')._
-var io = require('socket.io').listen(3000)
+var io = require('socket.io')(server)
 
 var db = mysql.createConnection({
 host: 'localhost',
-user: 'admin',
+user: 'root',
 database: 'test'
 })
 
 db.connect(function(err){
 if (err) console.log(err)
 })
+
+server.listen(3000, function(){
+	console.log('Server listening on *:3000')	
+})
+
+app.use(express.static(__dirname+'/public'))
  
-var clients = []
 var usernames = []
 
 io.sockets.on('connection', function(socket){
 connect(socket)
 
 socket.on('disconnect', function() {
+disconnect(socket)
 })
 
 })
@@ -45,7 +54,6 @@ if(cookies) {
 var session = PHPUnserialize.unserialize(cookies)
 
 if(session.session_id && session.ip_address) {
-
 db.query('SELECT * FROM ci_sessions WHERE session_id="' + session.session_id + '" AND ip_address="' + session.ip_address + '" LIMIT 1', function(err, result){
 
 if (err) throw err
@@ -64,13 +72,17 @@ data.username = socket.username
 data.avatar = socket.avatar
 usernames.push(data)
 usernames = us.uniq(usernames)
-clients[data.userid] = socket
+
 } else {
-console.log('*** NO VALID SESSION! ***')
+socket.emit('alert message', 'No valid CI session!')
+console.log('*** NO VALID CI SESSION! *** [' + session.session_id + ']')
 }
 })
 }
 }
 }
 
-console.log('Server listening at http://localhost:3000/')
+function disconnect(socket) {
+var o = us.findWhere(usernames, {'username': socket.username}) 
+usernames = us.without(usernames, o)
+}
