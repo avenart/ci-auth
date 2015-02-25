@@ -1,0 +1,23 @@
+{
+  "name": "ci-auth",
+  "version": "0.1.0",
+  "description": "NodeJS authentication for CI",
+  "main": "app.js",
+  "dependencies": {
+  	"express": "~4.9.x",
+    "mysql": "~2.5.x",
+    "php-unserialize": "~0.0.1",
+    "underscore": "~1.8.x",
+    "socket.io": "~1.x.x"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/avenart/ci-auth.git"
+  },
+  "author": "Avenart Design",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/avenart/ci-auth/issues"
+  },
+  "homepage": "https://github.com/avenart/ci-auth"
+}
