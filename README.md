@@ -1,8 +1,7 @@
 ci-auth
 ========
 
-CodeIgniter + NodeJS Auth Script
+NodeJS authorizes logged in users (via CodeIgniter 2.x) reading their sessions (cookies + database - MySQL). 
 
 
 
-Works with CodeIgniter 2.x
