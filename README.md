@@ -1,4 +1,8 @@
 ci-auth
 ========
 
-CodeIgniter Auth Script
+CodeIgniter + NodeJS Auth Script
+
+
+
+Works with CodeIgniter 2.x
